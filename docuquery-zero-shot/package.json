@@ -1,0 +1,13 @@
+{
+  "name": "zero-shot-basic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "groq-sdk": "^0.5.0",
+    "readline-sync": "^1.4.10"
+  }
+}
