@@ -1,0 +1,14 @@
+{
+  "name": "docuquery-multi-shot",
+  "version": "1.0.0",
+  "description": "Document query using multi-shot prompting",
+  "type": "module",
+  "scripts": {
+    "multi": "node multi-shot-qna.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2",
+    "readline-sync": "^1.4.10"
+  }
+}
