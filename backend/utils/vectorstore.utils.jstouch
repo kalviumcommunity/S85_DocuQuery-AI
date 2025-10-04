@@ -1,0 +1,52 @@
+import faiss from "faiss-node";
+import { embed, embedOne, EMBEDDING_DIM } from "./embeddings.utils.js";
+
+/**
+ * Simple in-memory FAISS index + parallel array of texts.
+ * Re-initialized per process start. For persistence, serialize vectors to disk.
+ */
+let index = null;
+let texts = [];
+
+/** Expose for optional management */
+export const vectorIndex = {
+  clear: () => { index = null; texts = []; },
+  size: () => (texts.length)
+};
+
+function ensureIndex() {
+  if (!index) {
+    index = new faiss.IndexFlatIP(EMBEDDING_DIM); // cosine via normalized IP
+  }
+}
+
+/** Normalize vector to unit length for cosine similarity */
+function normalize(vec) {
+  let sum = 0;
+  for (let i = 0; i < vec.length; i++) sum += vec[i] * vec[i];
+  const norm = Math.sqrt(sum) || 1;
+  for (let i = 0; i < vec.length; i++) vec[i] = vec[i] / norm;
+  return vec;
+}
+
+export async function addDocuments(chunks) {
+  if (!chunks?.length) return;
+  ensureIndex();
+
+  // Embed in batches
+  const vectors = await embed(chunks);
+  const normalized = vectors.map(v => normalize(v));
+
+  index.add(normalized);
+  texts.push(...chunks);
+}
+
+export async function similaritySearch(query, k = 4) {
+  if (!index || texts.length === 0) return [];
+  const q = normalize(await embedOne(query));
+  const { distances, labels } = index.search([q], Math.min(k, texts.length));
+
+  // labels[0] contains indices; map to chunk texts (filter out -1 if returned)
+  const idxs = labels[0].filter(i => i >= 0);
+  return idxs.map(i => texts[i]);
+}

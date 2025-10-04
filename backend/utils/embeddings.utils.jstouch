@@ -1,0 +1,22 @@
+import OpenAI from "openai";
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// text-embedding-3-small outputs 1536-d vectors
+const EMBEDDING_MODEL = process.env.OPENAI_EMBEDDING_MODEL || "text-embedding-3-small";
+export const EMBEDDING_DIM = 1536;
+
+export async function embed(texts) {
+  // Batch for fewer API calls
+  const res = await openai.embeddings.create({
+    model: EMBEDDING_MODEL,
+    input: texts
+  });
+
+  // Map to plain Float32Array for FAISS
+  return res.data.map(d => Float32Array.from(d.embedding));
+}
+
+export async function embedOne(text) {
+  const [vec] = await embed([text]);
+  return vec;
+}
