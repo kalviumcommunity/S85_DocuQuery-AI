@@ -189,5 +189,6 @@ By the end of this project, DocuQuery AI will provide:
 **🧑‍💻 Developer:** Madhav Garg
 **📧 Email:** [madhav.garg.s85@kalvium.community](mailto:madhav.garg.s85@kalvium.community)
 **🔗 Project Name:** DocuQuery AI
+**🔗 Deployed link:** https://docuqueryweb.netlify.app/
 
 ---
