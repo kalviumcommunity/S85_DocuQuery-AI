@@ -1,68 +1,74 @@
 # 📄 DocuQuery AI – Ask Your PDFs Anything
 
-## 🧠 Overview
+### 🧠 **AI-Powered Document Understanding Assistant**
 
-**DocuQuery AI** is a smart, AI-powered assistant that answers user questions directly from **insurance policy PDFs**, and it’s built to be adaptable to **any type of document** — including HR manuals, legal contracts, and user guides.
+**DocuQuery AI** is an intelligent assistant that allows users to **ask questions directly from any PDF** — from **insurance policies** to **legal contracts**, **HR manuals**, or **technical guides**.
 
-By leveraging modern AI capabilities such as **Prompt Engineering**, **Structured Output**, **Function Calling**, and **Retrieval-Augmented Generation (RAG)**, the tool simplifies the process of understanding dense, jargon-heavy documents.
+Powered by **Prompt Engineering**, **Structured Outputs**, **Function Calling**, and **Retrieval-Augmented Generation (RAG)**, DocuQuery AI transforms dense, jargon-heavy documents into simple, precise, and factual answers — instantly.
 
-Users no longer need to read through entire policies — they can simply upload a PDF, ask questions, and receive clear, structured answers instantly.
-
----
-
-## 🚀 Core Features
-
-* 📄 **PDF Upload**: Accepts any public PDF document URL.
-* ❓ **Multi-question Input**: Users can input several questions at once.
-* 🔍 **Accurate Answers**: Uses retrieval + generation to ensure factual, document-based responses.
-* 🧱 **JSON Output**: Clean, developer-friendly format.
-* 📊 **Metadata & Summaries**: Access high-level document insights through function calling.
+🔗 **Live Demo:** [https://docuqueryweb.netlify.app/](https://docuqueryweb.netlify.app/)
 
 ---
 
-## 🔧 System Architecture
+## 🚀 Features at a Glance
 
+| Feature                       | Description                                                               |
+| ----------------------------- | ------------------------------------------------------------------------- |
+| 📄 **PDF Upload**             | Upload or provide a public URL of any PDF document.                       |
+| ❓ **Multi-Question Support**  | Ask multiple questions at once for batch responses.                       |
+| 🔍 **Context-Aware Answers**  | Retrieves relevant chunks from the document for precise, factual answers. |
+| 🧱 **Structured JSON Output** | Clean, developer-friendly responses for easy API integration.             |
+| 📊 **Metadata & Summaries**   | Extract insights and summaries from any document section.                 |
+
+---
+
+## 🏗️ System Architecture
+
+```txt
+PDF Upload
+   ➜ Text Extraction
+   ➜ Chunking
+   ➜ Embedding
+   ➜ Vector Store
+         ⬇
+      User Query
+         ⬇
+  Retrieve Relevant Chunks
+         ⬇
+   LLM + Prompts + RAG
+         ⬇
+ Structured JSON Output
 ```
-txt
-PDF Upload ➔ Text Extraction ➔ Chunking ➔ Embedding ➔ Vector Store
-                      ⬇
-               Question from User
-                      ⬇
-              Relevant Chunks Retrieved
-                      ⬇
-           Passed to LLM with Prompts
-                      ⬇
-              Structured JSON Output
+
+---
+
+## 🧠 Core AI Concepts
+
+### 1️⃣ **Prompt Engineering**
+
+Prompts ensure that the model **answers only using the uploaded document** — with no hallucinations.
+
+**System Prompt:**
+
+```text
+You are a helpful AI assistant.
+Answer questions only using information from the provided document.
+Do not guess or add details not present in the text.
 ```
 
----
+**User Prompt Example:**
 
-## 🧹 AI Concepts Implementation
+```text
+What is the grace period for premium payment under this insurance policy?
+```
 
-### 1️⃣ Prompting
-
-Prompts guide the model to focus only on the uploaded content.
-
-* **System Prompt** (LLM Role):
-
-  ```
-  You are a helpful AI assistant. Answer questions only using the information from the provided document.
-  Do not guess or add information not found in the text.
-  ```
-
-* **User Prompt** (Actual Query):
-
-  ```
-  What is the grace period for premium payment under this insurance policy?
-  ```
-
-✅ This ensures relevance, accuracy, and strict adherence to document content.
+✅ *Ensures responses are relevant, factual, and document-based.*
 
 ---
 
-### 2️⃣ Structured Output
+### 2️⃣ **Structured Output**
 
-The model returns answers in a structured JSON format, ensuring consistency and ease of integration.
+Responses are returned in a consistent, structured **JSON format** — ideal for UI rendering or backend integration.
 
 **Example Output:**
 
@@ -79,21 +85,21 @@ The model returns answers in a structured JSON format, ensuring consistency and 
 ]
 ```
 
-✅ This structured format helps with UI rendering, database storage, or API consumption.
+✅ *Makes the data easy to parse, visualize, or store.*
 
 ---
 
-### 3️⃣ Function Calling
+### 3️⃣ **Function Calling**
 
-Uses **OpenAI’s function calling** to perform utility operations on the PDF:
+Uses **OpenAI’s function calling** to extract structured metadata, summaries, and exclusions directly from the PDF.
 
-| Function Name          | Purpose                                                 |
-| ---------------------- | ------------------------------------------------------- |
-| `extract_metadata`     | Returns title, page count, size, and author of document |
-| `summarize_section`    | Provides a TL;DR for a given section of the document    |
-| `highlight_exclusions` | Lists exclusions, conditions, or legal clauses          |
+| Function               | Description                                     |
+| ---------------------- | ----------------------------------------------- |
+| `extract_metadata`     | Returns document title, author, and page count. |
+| `summarize_section`    | Provides a summary of a selected section.       |
+| `highlight_exclusions` | Extracts exclusions or special conditions.      |
 
-**Example Function Definition:**
+**Example Function Schema:**
 
 ```json
 {
@@ -102,28 +108,28 @@ Uses **OpenAI’s function calling** to perform utility operations on the PDF:
 }
 ```
 
-✅ Function calling ensures modularity and better interaction with document features.
+✅ *Enhances modularity and simplifies interaction with document data.*
 
 ---
 
-### 4️⃣ RAG – Retrieval-Augmented Generation
+### 4️⃣ **Retrieval-Augmented Generation (RAG)**
 
-**RAG Workflow Steps:**
+**RAG Workflow:**
 
-1. 📄 **Text Extraction**: The PDF is converted to raw text.
-2. 🧩 **Chunking**: Text is split into meaningful, context-aware segments.
-3. 🧠 **Embedding**: Each chunk is converted into vector embeddings using a model like `OpenAI`, `Cohere`, or `Sentence-BERT`.
-4. 💃 **Vector Store**: Stored in a fast search index like `Pinecone`, `FAISS`, or `Weaviate`.
-5. ❓ **Querying**: When a question is asked, the top-k most relevant chunks are retrieved.
-6. 🧠 **Answer Generation**: LLM uses only those chunks to answer.
+1. 📄 **Text Extraction** – Converts the uploaded PDF into plain text.
+2. 🧩 **Chunking** – Splits text into context-aware sections.
+3. 🧠 **Embedding** – Converts chunks into vector embeddings using models like OpenAI or Sentence-BERT.
+4. 💾 **Vector Store** – Saves embeddings in a searchable database (FAISS, Pinecone, etc.).
+5. ❓ **Querying** – Retrieves top relevant chunks for each user query.
+6. 💬 **Answer Generation** – LLM uses retrieved context to generate precise, grounded answers.
 
-✅ This ensures that answers are **fact-based**, **context-aware**, and **non-hallucinatory**.
+✅ *Ensures that answers are always factual, context-rich, and free of hallucinations.*
 
 ---
 
-## 🧪 Sample Request & Response
+## 🧪 Sample API Usage
 
-**Input JSON:**
+**Input:**
 
 ```json
 {
@@ -135,7 +141,7 @@ Uses **OpenAI’s function calling** to perform utility operations on the PDF:
 }
 ```
 
-**Output JSON:**
+**Output:**
 
 ```json
 [
@@ -152,43 +158,51 @@ Uses **OpenAI’s function calling** to perform utility operations on the PDF:
 
 ---
 
-## 📈 Evaluation Criteria
+## ⚙️ Tech Stack
 
-### ✔️ Correctness
-
-* Answers are strictly derived from document content via **retrieval**.
-* No hallucinations — only grounded and verifiable information.
-
-### ⚡ Efficiency
-
-* PDF parsing and chunking optimized for performance.
-* Embeddings and retrieval done using scalable tools (e.g., FAISS, Pinecone).
-* Uses fast API calls with streaming or batching support.
-
-### 📊 Scalability
-
-* Supports large PDFs through chunked vector storage.
-* Handles concurrent requests through async processing.
-* Easily deployable as a scalable microservice (Docker + FastAPI or Express backend).
+| Component           | Technology                                     |
+| ------------------- | ---------------------------------------------- |
+| **Frontend**        | React.js + Tailwind CSS                        |
+| **Backend**         | Node.js / Express                              |
+| **AI Engine**       | OpenAI API (GPT-based LLM)                     |
+| **Vector Database** | Pinecone / FAISS                               |
+| **Storage**         | Cloud-hosted PDFs                              |
+| **Deployment**      | Netlify (Frontend) + Render / Vercel (Backend) |
 
 ---
 
-## 🎯 Final Goal
+## 📈 Evaluation Metrics
 
-By the end of this project, DocuQuery AI will provide:
+| Metric             | Description                                                           |
+| ------------------ | --------------------------------------------------------------------- |
+| ✔️ **Correctness** | Ensures answers are derived only from retrieved text chunks.          |
+| ⚡ **Efficiency**   | Optimized chunking and parallel embeddings for fast retrieval.        |
+| 📊 **Scalability** | Supports large PDFs, concurrent queries, and asynchronous processing. |
 
-* A fully functional frontend for PDF upload and question entry.
-* Backend processing using RAG and function calling.
-* Reliable, structured answers for any uploaded document.
-* Tools to help users extract insights from complex policies — instantly and accurately.
+✅ *Built for both performance and accuracy.*
 
 ---
 
-## 📬 Contact
+## 🧭 Future Enhancements
 
-**🧑‍💻 Developer:** Madhav Garg
+* 🗂️ **Multi-file Querying** – Ask across multiple PDFs at once.
+* 🗣️ **Voice-based Queries** – Interact with the assistant via speech.
+* 🧾 **Citation Mode** – Show page numbers and text sources for each answer.
+* 🔒 **Private Uploads** – Secure document handling with authentication.
+
+---
+
+## 💡 Project Vision
+
+> “To make understanding complex documents effortless — one question at a time.”
+
+**DocuQuery AI** aims to be a **universal document intelligence tool**, helping individuals and businesses extract clarity from dense, text-heavy PDFs — quickly, accurately, and interactively.
+
+---
+
+## 👨‍💻 Developer
+
+**🧑‍💻 Name:** Madhav Garg
 **📧 Email:** [madhav.garg.s85@kalvium.community](mailto:madhav.garg.s85@kalvium.community)
-**🔗 Project Name:** DocuQuery AI
-**🔗 Deployed link:** https://docuqueryweb.netlify.app/
-
----
+**🔗 Project:** DocuQuery AI
+**🌐 Live Demo:** [https://docuqueryweb.netlify.app/](https://docuqueryweb.netlify.app/)
