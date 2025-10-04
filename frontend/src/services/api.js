@@ -1,10 +1,12 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
+console.log('🔍 Using API_BASE_URL:', API_BASE_URL);
 
 export const uploadDocument = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch(`${API_BASE_URL}/upload`, {
+  const response = await fetch(`${API_BASE_URL}/api/upload`, {
     method: 'POST',
     body: formData,
   });
@@ -25,7 +27,7 @@ export const queryDocument = async (documentPath, question) => {
   console.log('Querying document:', { documentPath, question });
   
   try {
-    const response = await fetch(`${API_BASE_URL}/ask`, {
+    const response = await fetch(`${API_BASE_URL}/api/ask`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
