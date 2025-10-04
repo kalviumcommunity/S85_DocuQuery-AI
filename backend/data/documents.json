@@ -1,0 +1,36 @@
+[
+  {
+    "id": "doc_1759564617912_unpgc2dp9",
+    "filename": "1759564617858-SAIYOG.pdf",
+    "originalName": "SAIYOG.pdf",
+    "filePath": "C:\\Users\\Madhav Garg\\Documents\\Projects\\DocuQuery AI\\backend\\uploads\\1759564617858-SAIYOG.pdf",
+    "fileSize": 911947,
+    "uploadDate": "2025-10-04T07:56:57.912Z",
+    "lastAccessed": "2025-10-04T07:57:30.067Z",
+    "type": "general",
+    "keywords": [],
+    "queryCount": 3,
+    "isFavorite": false,
+    "tags": [],
+    "summary": "Uploaded document: SAIYOG.pdf",
+    "pageCount": 0,
+    "content": "",
+    "recentQueries": [
+      {
+        "question": "List the important dates mentioned",
+        "answer": "THINKING PROCESS:\n1. I analyzed each chunk of the provided context to identify any important dates mentioned.\n2. Upon reviewing the context, I found a specific date mentioned in CHUNK 4, which is rela...",
+        "timestamp": "2025-10-04T07:57:30.067Z"
+      },
+      {
+        "question": "What are the conclusions?",
+        "answer": "THINKING PROCESS:\n1. The question asks for conclusions, which typically involve summarizing the main points or outcomes of a discussion, analysis, or study. To find conclusions, I need to look for sec...",
+        "timestamp": "2025-10-04T07:57:15.258Z"
+      },
+      {
+        "question": "What are the main points of this document?",
+        "answer": "THINKING PROCESS:\n1. The document appears to be a proposal or a plan for a digital platform aimed at centralized alumni data management and engagement, named SAIYOG. To identify the main points, I wil...",
+        "timestamp": "2025-10-04T07:57:04.989Z"
+      }
+    ]
+  }
+]

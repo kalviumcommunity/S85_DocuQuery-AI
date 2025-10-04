@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: docuquery-backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: OPENAI_EMBEDDING_MODEL
+        value: text-embedding-3-small
+      # Add your API keys in Render dashboard for security

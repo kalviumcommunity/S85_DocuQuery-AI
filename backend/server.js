@@ -32,16 +32,35 @@ try {
 const app = express();
 
 // Configure CORS
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'http://localhost:5174',
+  'https://docuqueryweb.netlify.app',
+  'https://*.netlify.app' // Allow any Netlify subdomain
+];
+
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    // Check if origin matches any allowed origin or Netlify pattern
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.includes('*')) {
+        // Handle wildcard patterns like *.netlify.app
+        const pattern = allowedOrigin.replace('*', '.*');
+        return new RegExp(pattern).test(origin);
+      }
+      return allowedOrigin === origin;
+    });
+    
+    if (!isAllowed) {
+      const msg = `CORS policy: Origin ${origin} not allowed. Allowed origins: ${allowedOrigins.join(', ')}`;
+      console.error(msg);
       return callback(new Error(msg), false);
     }
+    
+    console.log(`CORS: Allowing origin ${origin}`);
     return callback(null, true);
   },
   methods: ['GET', 'POST', 'OPTIONS'],
@@ -266,7 +285,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n🚀 Server is running on http://localhost:${PORT}`);
   console.log(`📁 Upload directory: ${path.join(__dirname, 'uploads')}`);
   console.log(`🔍 Debug mode: ${process.env.DEBUG ? 'enabled' : 'disabled'}`);
-  console.log(`🌐 CORS enabled for: http://localhost:5174`);
+  console.log(`🌐 CORS enabled for: localhost:5173, localhost:5174, and *.netlify.app`);
 });
 
 // Handle unhandled promise rejections
